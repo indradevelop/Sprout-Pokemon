@@ -58,7 +58,7 @@ class _PokemonDetailPageState extends State<PokemonDetailPage>
               Stack(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.45,
+                    height: MediaQuery.of(context).size.height * 0.4,
                     color: widget.color,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,8 +190,8 @@ class _PokemonDetailPageState extends State<PokemonDetailPage>
                               widget.pokemon.imageUrl,
                               height: MediaQuery.of(context).orientation ==
                                       Orientation.landscape
-                                  ? 170
-                                  : 200,
+                                  ? MediaQuery.of(context).size.height * 0.4
+                                  : MediaQuery.of(context).size.height * 0.25,
                               fit: BoxFit.contain,
                               errorBuilder: (context, error, stackTrace) {
                                 return const Icon(
