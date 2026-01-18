@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/pokemon.dart';
 import '../services/pokemon_service.dart';
 import 'pokemon_detail_page.dart';
@@ -183,6 +184,12 @@ class _PokeDexPageState extends State<PokeDexPage> {
               backgroundColor: Colors.transparent,
               elevation: 0,
               centerTitle: false,
+              systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarColor: Colors.transparent,
+                statusBarIconBrightness: Brightness.dark, // Android
+                statusBarBrightness: Brightness.dark, // iOS
+                systemStatusBarContrastEnforced: false,
+              ),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back, color: Colors.black),
                 onPressed: () {},

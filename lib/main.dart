@@ -4,13 +4,6 @@ import 'pages/pokedex_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarBrightness: Brightness.dark,
-      systemStatusBarContrastEnforced: false,
-    ),
-  );
   runApp(const MyApp());
 }
 

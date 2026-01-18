@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/pokemon.dart';
 
 class PokemonDetailPage extends StatefulWidget {
@@ -40,206 +41,215 @@ class _PokemonDetailPageState extends State<PokemonDetailPage>
     );
     final pokemonId = '#${widget.pokemon.pokemonId.toString().padLeft(3, '0')}';
 
-    return Scaffold(
-      backgroundColor: widget.color,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header Section
-            Stack(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.45,
-                  color: widget.color,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Back button and favorite
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.arrow_back,
-                                color: Colors.white),
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              isFavorite
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                isFavorite = !isFavorite;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      // Pokemon Name and ID
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 16, right: 16, bottom: 8),
-                        child: Row(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness:
+            Brightness.light, // White icons on colored background
+        statusBarBrightness: Brightness.dark, // iOS
+        systemStatusBarContrastEnforced: false,
+      ),
+      child: Scaffold(
+        backgroundColor: widget.color,
+        body: SafeArea(
+          child: Column(
+            children: [
+              // Header Section
+              Stack(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.45,
+                    color: widget.color,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Back button and favorite
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              pokemonName,
-                              style: const TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                            IconButton(
+                              icon: const Icon(Icons.arrow_back,
+                                  color: Colors.white),
+                              onPressed: () => Navigator.pop(context),
                             ),
-                            Text(
-                              pokemonId,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white70,
+                            IconButton(
+                              icon: Icon(
+                                isFavorite
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: Colors.white,
+                                size: 28,
                               ),
+                              onPressed: () {
+                                setState(() {
+                                  isFavorite = !isFavorite;
+                                });
+                              },
                             ),
                           ],
                         ),
-                      ),
-                      // Type badges
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16, bottom: 16),
-                        child: Row(
-                          children: widget.pokemon.types.map((type) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white24,
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 6,
-                                ),
-                                child: Text(
-                                  type.replaceFirst(
-                                    type[0],
-                                    type[0].toUpperCase(),
-                                  ),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                        // Pokemon Name and ID
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16, right: 16, bottom: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                pokemonName,
+                                style: const TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
                               ),
-                            );
-                          }).toList(),
+                              Text(
+                                pokemonId,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white70,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Type badges
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, bottom: 16),
+                          child: Row(
+                            children: widget.pokemon.types.map((type) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white24,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 6,
+                                  ),
+                                  child: Text(
+                                    type.replaceFirst(
+                                      type[0],
+                                      type[0].toUpperCase(),
+                                    ),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    right: -20,
+                    child: Image.asset(
+                      'assets/images/pokeball.png',
+                      width: 180,
+                      height: 180,
+                      color: Colors.white24,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).orientation ==
+                              Orientation.landscape
+                          ? 20
+                          : 40,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: MediaQuery.of(context).orientation ==
+                            Orientation.landscape
+                        ? -8
+                        : 0,
+                    child: widget.pokemon.imageUrl.isNotEmpty
+                        ? Center(
+                            child: Image.network(
+                              widget.pokemon.imageUrl,
+                              height: MediaQuery.of(context).orientation ==
+                                      Orientation.landscape
+                                  ? 170
+                                  : 200,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(
+                                  Icons.image_not_supported,
+                                  color: Colors.white54,
+                                  size: 100,
+                                );
+                              },
+                            ),
+                          )
+                        : Container(),
+                  )
+                ],
+              ),
+              // Tab Bar and Content
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      TabBar(
+                        controller: _tabController,
+                        labelColor: Colors.blue,
+                        unselectedLabelColor: Colors.grey,
+                        indicatorColor: Colors.blue,
+                        indicatorWeight: 3,
+                        labelStyle: const TextStyle(
+                            fontSize: 11, fontWeight: FontWeight.bold),
+                        unselectedLabelStyle: const TextStyle(
+                            fontSize: 11, fontWeight: FontWeight.bold),
+                        tabs: const [
+                          Tab(text: 'About'),
+                          Tab(text: 'Base Stats'),
+                          Tab(text: 'Evolution'),
+                          Tab(text: 'Moves'),
+                        ],
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: [
+                            // About Tab
+                            _buildAboutTab(),
+                            // Base Stats Tab
+                            _buildBaseStatsTab(),
+                            // Evolution Tab
+                            _buildEvolutionTab(),
+                            // Moves Tab
+                            _buildMovesTab(),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                Positioned(
-                  bottom: 10,
-                  right: -20,
-                  child: Image.asset(
-                    'assets/images/pokeball.png',
-                    width: 180,
-                    height: 180,
-                    color: Colors.white24,
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).orientation ==
-                            Orientation.landscape
-                        ? 20
-                        : 40,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: MediaQuery.of(context).orientation ==
-                          Orientation.landscape
-                      ? -8
-                      : 0,
-                  child: widget.pokemon.imageUrl.isNotEmpty
-                      ? Center(
-                          child: Image.network(
-                            widget.pokemon.imageUrl,
-                            height: MediaQuery.of(context).orientation ==
-                                    Orientation.landscape
-                                ? 170
-                                : 200,
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(
-                                Icons.image_not_supported,
-                                color: Colors.white54,
-                                size: 100,
-                              );
-                            },
-                          ),
-                        )
-                      : Container(),
-                )
-              ],
-            ),
-            // Tab Bar and Content
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    TabBar(
-                      controller: _tabController,
-                      labelColor: Colors.blue,
-                      unselectedLabelColor: Colors.grey,
-                      indicatorColor: Colors.blue,
-                      indicatorWeight: 3,
-                      labelStyle: const TextStyle(
-                          fontSize: 11, fontWeight: FontWeight.bold),
-                      unselectedLabelStyle: const TextStyle(
-                          fontSize: 11, fontWeight: FontWeight.bold),
-                      tabs: const [
-                        Tab(text: 'About'),
-                        Tab(text: 'Base Stats'),
-                        Tab(text: 'Evolution'),
-                        Tab(text: 'Moves'),
-                      ],
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          // About Tab
-                          _buildAboutTab(),
-                          // Base Stats Tab
-                          _buildBaseStatsTab(),
-                          // Evolution Tab
-                          _buildEvolutionTab(),
-                          // Moves Tab
-                          _buildMovesTab(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
